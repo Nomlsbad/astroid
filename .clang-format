@@ -1,32 +1,103 @@
-BasedOnStyle: Microsoft
+Language: Cpp
 
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
 AllowShortBlocksOnASingleLine: Empty
-AllowShortFunctionsOnASingleLine: InlineOnly
-AllowShortLambdasOnASingleLine: All
 AllowShortCaseLabelsOnASingleLine: true
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Inline
 AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: true
 AlwaysBreakTemplateDeclarations: Yes
 
-BreakBeforeBraces: Allman
+BinPackArguments: true
+BinPackParameters: true
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: true
+  AfterControlStatement: Always
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeCatch: false
+  BeforeElse: true
+  BeforeLambdaBody: true
+  BeforeWhile: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
 BreakConstructorInitializers: BeforeColon
+BreakBeforeTernaryOperators: true
+BreakInheritanceList: AfterColon
 
 ColumnLimit: 120
+Cpp11BracedListStyle: true
 
 EmptyLineAfterAccessModifier: Always
 EmptyLineBeforeAccessModifier: LogicalBlock
 
+FixNamespaceComments: true
+
+IncludeBlocks: Regroup
+IndentAccessModifiers: false
 IndentCaseBlocks: false
+IndentCaseLabels: false
+IndentRequiresClause: false
 IndentWidth: 4
+IntegerLiteralSeparator:
+  Binary: 4
+  BinaryMinDigits: 7
+  Decimal: 3
+  DecimalMinDigits: 5
+  Hex: 2
+  HexMinDigits: 6
+
+KeepEmptyLinesAtEOF: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+LambdaBodyIndentation: Signature
+
+MaxEmptyLinesToKeep: 1
 
 NamespaceIndentation: None
 
-PackConstructorInitializers: Never
+PackConstructorInitializers: BinPack
 PointerAlignment: Left
 ReferenceAlignment: Pointer
+RequiresClausePosition: OwnLine
 
 SeparateDefinitionBlocks: Always
+ShortNamespaceLines: 0
 SortIncludes: CaseInsensitive
-SortUsingDeclarations: LexicographicNumeric
+SortUsingDeclarations: Lexicographic
+
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: false
+SpaceAroundPointerQualifiers: Default
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeCtorInitializerColon: false
+SpaceBeforeInheritanceColon: false
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterFunctionDeclarationName: false
+  AfterFunctionDefinitionName: false
+  AfterOverloadedOperator: true
+SpaceBeforeRangeBasedForLoopColon: false
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpacesInAngles: Never
+SpacesInContainerLiterals: false
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
+SpacesInParens: Never
+SpacesInSquareBrackets: false
+UseTab: Never
