@@ -1,3 +1,8 @@
+/**
+ * @file  Level.h
+ * @brief Level class declaration.
+ */
+
 #ifndef LEVEL_H
 #define LEVEL_H
 
