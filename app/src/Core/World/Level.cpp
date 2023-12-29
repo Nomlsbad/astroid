@@ -5,6 +5,8 @@
 using TGEngine::Core::Level;
 using TGEngine::Core::World;
 
+Level::Level(std::string name): name(std::move(name)) {}
+
 void Level::transferActor(const SharedPtr<Actor>& actor)
 {
     const auto& level = World::instance().findActorLocation(actor);

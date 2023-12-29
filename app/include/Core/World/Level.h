@@ -13,7 +13,7 @@ class Level
 {
 public:
 
-    Level() = default;
+    explicit Level(std::string name);
 
     Level(const Level& level) = delete;
     Level& operator= (const Level& level) = delete;
@@ -23,10 +23,14 @@ public:
 
 public:
 
+    [[nodiscard]] std::string getName() const { return name; }
+
     void transferActor(const SharedPtr<Actor>& actor);
     [[nodiscard]] bool isAtLevel(const SharedPtr<Actor>& actor) const;
 
 private:
+
+    std::string name;
 
     std::set<SharedPtr<Actor>> actors;
 };
