@@ -21,6 +21,7 @@ private:
 
 public:
 
+    [[nodiscard]] SharedPtr<Level> findLevelByName(const std::string& name) const;
     [[nodiscard]] SharedPtr<Level> findActorLocation(const SharedPtr<Actor>& actor) const;
 
 private:
