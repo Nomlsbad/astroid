@@ -1,0 +1,28 @@
+name: C++ CI
+
+on:
+  push:
+    branches: [ "main", "dev"]
+  pull_request:
+    branches: [ "main", "dev"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      
+      - name: Configure Project
+        uses: threeal/cmake-action@v1.3.0
+        with:
+          generator: Ninja
+          c-compiler: gcc
+          cxx-compiler: g++
+
+      - name: Build Project
+        run: cmake --build build
+
+      - name: Test Project
+        run: ctest --test-dir build
