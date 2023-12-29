@@ -1,0 +1,27 @@
+\hypertarget{_level_8h}{}\doxysection{/home/ilia/programming/astroid/app/include/\+Core/\+World/\+Level.h File Reference}
+\label{_level_8h}\index{/home/ilia/programming/astroid/app/include/Core/World/Level.h@{/home/ilia/programming/astroid/app/include/Core/World/Level.h}}
+
+
+Level class declaration.  
+
+
+{\ttfamily \#include \char`\"{}Utils/\+Forward\+Declarations/\+Core.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Utils/\+Types/\+Cpp\+Types.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$set$>$}\newline
+Include dependency graph for Level.\+h\+:
+% FIG 0
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_t_g_engine_1_1_core_1_1_level}{TGEngine\+::\+Core\+::\+Level}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespace_t_g_engine_1_1_core}{TGEngine\+::\+Core}}
+\begin{DoxyCompactList}\small\item\em Namespace with core classes for game. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Level class declaration. 
+
