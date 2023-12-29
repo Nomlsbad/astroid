@@ -24,9 +24,8 @@ SharedPtr<Level> World::findLevelByName(const std::string& name) const
 
 SharedPtr<Level> World::findActorLocation(const SharedPtr<Actor>& actor) const
 {
-    for (const auto& level: levels)
-    {
-        if (level->isAtLevel(actor)) return level;
-    }
-    return nullptr;
+    const auto level = std::ranges::find_if(levels, [&actor](const auto& level) { return level->isAtLevel(actor); });
+    if (level == levels.cend()) return nullptr;
+
+    return *level;
 }
