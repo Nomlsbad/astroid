@@ -1,4 +1,4 @@
-digraph "/home/ilia/programming/astroid/app/src" {
+digraph "src" {
   compound=true
   node [ fontsize="10", fontname="Helvetica"];
   edge [ labelfontsize="10", labelfontname="Helvetica"];
@@ -12,6 +12,6 @@ digraph "/home/ilia/programming/astroid/app/src" {
   dir_57e9636a7057f513a10ced17b97c9f2a [shape=box label="Gameplay" fillcolor="white" style="filled" color="red" URL="dir_57e9636a7057f513a10ced17b97c9f2a.html"];
   }
   }
-  dir_57e9636a7057f513a10ced17b97c9f2a->dir_78f5ecd95a37a67589a284a718a0be9c [headlabel="1", labeldistance=1.5 headhref="dir_000014_000001.html"];
-  dir_f7d4be874a03ffe36f67d0add008229d->dir_78f5ecd95a37a67589a284a718a0be9c [headlabel="2", labeldistance=1.5 headhref="dir_000011_000001.html"];
+  dir_57e9636a7057f513a10ced17b97c9f2a->dir_78f5ecd95a37a67589a284a718a0be9c [headlabel="1", labeldistance=1.5 headhref="dir_000007_000004.html"];
+  dir_f7d4be874a03ffe36f67d0add008229d->dir_78f5ecd95a37a67589a284a718a0be9c [headlabel="2", labeldistance=1.5 headhref="dir_000002_000004.html"];
 }
