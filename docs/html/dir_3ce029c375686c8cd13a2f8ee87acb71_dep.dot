@@ -1,4 +1,4 @@
-digraph "/home/ilia/programming/astroid/app/src/Core/World" {
+digraph "World" {
   compound=true
   node [ fontsize="10", fontname="Helvetica"];
   edge [ labelfontsize="10", labelfontname="Helvetica"];
@@ -7,5 +7,5 @@ digraph "/home/ilia/programming/astroid/app/src/Core/World" {
   dir_3ce029c375686c8cd13a2f8ee87acb71 [shape=box, label="World", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_3ce029c375686c8cd13a2f8ee87acb71.html"];
   }
   dir_78f5ecd95a37a67589a284a718a0be9c [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_78f5ecd95a37a67589a284a718a0be9c.html"];
-  dir_3ce029c375686c8cd13a2f8ee87acb71->dir_78f5ecd95a37a67589a284a718a0be9c [headlabel="2", labeldistance=1.5 headhref="dir_000013_000001.html"];
+  dir_3ce029c375686c8cd13a2f8ee87acb71->dir_78f5ecd95a37a67589a284a718a0be9c [headlabel="2", labeldistance=1.5 headhref="dir_000014_000004.html"];
 }
