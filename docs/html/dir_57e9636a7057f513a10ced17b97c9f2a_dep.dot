@@ -1,0 +1,15 @@
+digraph "Gameplay" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_a8f641299cfea9f7461c2df1141b7786 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_a8f641299cfea9f7461c2df1141b7786.html"]
+  subgraph clusterdir_57e9636a7057f513a10ced17b97c9f2a {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_57e9636a7057f513a10ced17b97c9f2a.html"];
+    dir_57e9636a7057f513a10ced17b97c9f2a [shape=plaintext label="Gameplay"];
+  dir_4341d7aa73b527b8e77d64ffa8048f54 [shape=box label="Actions" fillcolor="white" style="filled" URL="dir_4341d7aa73b527b8e77d64ffa8048f54.html"];
+  }
+  }
+  dir_78f5ecd95a37a67589a284a718a0be9c [shape=box label="include" fillcolor="white" style="filled" color="red" URL="dir_78f5ecd95a37a67589a284a718a0be9c.html"];
+  dir_4341d7aa73b527b8e77d64ffa8048f54->dir_78f5ecd95a37a67589a284a718a0be9c [headlabel="1", labeldistance=1.5 headhref="dir_000008_000004.html"];
+}
