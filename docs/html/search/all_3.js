@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['level_3',['Level',['../class_t_g_engine_1_1_core_1_1_level.html',1,'TGEngine::Core']]],
-  ['level_2eh_4',['Level.h',['../_level_8h.html',1,'']]]
+  ['findactorlocation_8',['findActorLocation',['../classTGEngine_1_1Core_1_1World.html#a970f34a1d5356728287d84cc5d09518f',1,'TGEngine::Core::World']]],
+  ['findlevelbyname_9',['findLevelByName',['../classTGEngine_1_1Core_1_1World.html#aa8be17f87337acfe50d7e40bed86435a',1,'TGEngine::Core::World']]]
 ];
