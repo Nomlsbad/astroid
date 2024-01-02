@@ -13,16 +13,16 @@ using SharedPtr = std::shared_ptr<T>;
 template <typename T>
 using WeakPtr = std::weak_ptr<T>;
 
-} // namespace TRPGEngine::Types
+} // namespace TGEngine::Types
 
 namespace TGEngine::Core
 {
 using namespace TGEngine::Types;
-} // namespace TRPGEngine::Core
+} // namespace TGEngine::Core
 
 namespace TGEngine::Gameplay
 {
 using namespace TGEngine::Types;
-} // namespace TRPGEngine::Gameplay
+} // namespace TGEngine::Gameplay
 
 #endif // TYPES_H

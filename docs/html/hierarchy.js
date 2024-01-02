@@ -1,7 +1,7 @@
 var hierarchy =
 [
     [ "std::enable_shared_from_this", null, [
-      [ "TRPGEngine::Core::Actor", "classTRPGEngine_1_1Core_1_1Actor.html", null ]
+      [ "TGEngine::Core::Actor", "classTGEngine_1_1Core_1_1Actor.html", null ]
     ] ],
     [ "TGEngine::Gameplay::IAction", "classTGEngine_1_1Gameplay_1_1IAction.html", [
       [ "TGEngine::Gameplay::ChangeLevel", "classTGEngine_1_1Gameplay_1_1ChangeLevel.html", null ]
