@@ -3,7 +3,7 @@
 
 #include <Utils/Types/CppTypes.h>
 
-namespace TGEngine::Core
+namespace TGEngine::Game
 {
 
 class Actor: public std::enable_shared_from_this<Actor>
@@ -13,6 +13,6 @@ public:
     Actor() = default;
 };
 
-} // namespace TGEngine::Core
+} // namespace TGEngine::Game
 
 #endif // ACTOR_H

@@ -1,12 +1,12 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "Utils/ForwardDeclarations/Core.h"
+#include "Utils/ForwardDeclarations/Game.h"
 #include "Utils/Types/CppTypes.h"
 
 #include <vector>
 
-namespace TGEngine::Core
+namespace TGEngine::Game
 {
 
 class World final
@@ -29,6 +29,6 @@ private:
     std::vector<SharedPtr<Level>> levels;
 };
 
-} // namespace TGEngine::Core
+} // namespace TGEngine::Game
 
 #endif // WORLD_H

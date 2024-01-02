@@ -1,10 +1,10 @@
-#include "Gameplay/Actions/ChangeLevel.h"
+#include "Game/Actions/ChangeLevel.h"
 
-#include "Core/World/Level.h"
+#include "Game/World/Level.h"
 
-using TGEngine::Core::Actor;
-using TGEngine::Core::Level;
-using TGEngine::Gameplay::ChangeLevel;
+using TGEngine::Game::Actor;
+using TGEngine::Game::Level;
+using TGEngine::Game::ChangeLevel;
 
 ChangeLevel::ChangeLevel(WeakPtr<Level> level): level(std::move(level)) {}
 

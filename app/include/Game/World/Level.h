@@ -6,12 +6,12 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include "Utils/ForwardDeclarations/Core.h"
+#include "Utils/ForwardDeclarations/Game.h"
 #include "Utils/Types/CppTypes.h"
 
 #include <set>
 
-namespace TGEngine::Core
+namespace TGEngine::Game
 {
 
 class Level
@@ -40,6 +40,6 @@ private:
     std::set<SharedPtr<Actor>> actors;
 };
 
-} // namespace TGEngine::Core
+} // namespace TGEngine::Game
 
 #endif // LEVEL_H

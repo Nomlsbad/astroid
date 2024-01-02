@@ -1,9 +1,9 @@
-#include "Core/World/Level.h"
+#include "Game/World/Level.h"
 
-#include "Core/World/World.h"
+#include "Game/World/World.h"
 
-using TGEngine::Core::Level;
-using TGEngine::Core::World;
+using TGEngine::Game::Level;
+using TGEngine::Game::World;
 
 Level::Level(std::string name): name(std::move(name)) {}
 

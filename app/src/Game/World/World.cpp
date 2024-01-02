@@ -1,11 +1,11 @@
-#include "Core/World/World.h"
+#include "Game/World/World.h"
 
-#include "Core/World/Level.h"
+#include "Game/World/Level.h"
 
 #include <ranges>
 
-using TGEngine::Core::Level;
-using TGEngine::Core::World;
+using TGEngine::Game::Level;
+using TGEngine::Game::World;
 using TGEngine::Types::SharedPtr;
 
 World& World::instance()
