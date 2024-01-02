@@ -1,11 +1,11 @@
 var hierarchy =
 [
     [ "std::enable_shared_from_this", null, [
-      [ "TRPGEngine::Core::Actor", "class_t_r_p_g_engine_1_1_core_1_1_actor.html", null ]
+      [ "TRPGEngine::Core::Actor", "classTRPGEngine_1_1Core_1_1Actor.html", null ]
     ] ],
-    [ "TGEngine::Gameplay::IAction", "class_t_g_engine_1_1_gameplay_1_1_i_action.html", [
-      [ "TGEngine::Gameplay::ChangeLevel", "class_t_g_engine_1_1_gameplay_1_1_change_level.html", null ]
+    [ "TGEngine::Gameplay::IAction", "classTGEngine_1_1Gameplay_1_1IAction.html", [
+      [ "TGEngine::Gameplay::ChangeLevel", "classTGEngine_1_1Gameplay_1_1ChangeLevel.html", null ]
     ] ],
-    [ "TGEngine::Core::Level", "class_t_g_engine_1_1_core_1_1_level.html", null ],
-    [ "TGEngine::Core::World", "class_t_g_engine_1_1_core_1_1_world.html", null ]
+    [ "TGEngine::Core::Level", "classTGEngine_1_1Core_1_1Level.html", null ],
+    [ "TGEngine::Core::World", "classTGEngine_1_1Core_1_1World.html", null ]
 ];

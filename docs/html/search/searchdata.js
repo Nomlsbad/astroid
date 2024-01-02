@@ -1,21 +1,30 @@
 var indexSectionsWithContent =
 {
-  0: "acilw",
+  0: "acdfgilostw~",
   1: "acilw",
-  2: "l"
+  2: "t",
+  3: "acilw",
+  4: "acdfgilot~",
+  5: "sw"
 };
 
 var indexSectionNames =
 {
   0: "all",
   1: "classes",
-  2: "files"
+  2: "namespaces",
+  3: "files",
+  4: "functions",
+  5: "typedefs"
 };
 
 var indexSectionLabels =
 {
   0: "All",
   1: "Classes",
-  2: "Files"
+  2: "Namespaces",
+  3: "Files",
+  4: "Functions",
+  5: "Typedefs"
 };
 

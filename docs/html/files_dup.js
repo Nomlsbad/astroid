@@ -1,12 +1,20 @@
 var files_dup =
 [
-    [ "Actor.h", "_actor_8h_source.html", null ],
-    [ "ChangeLevel.h", "_change_level_8h_source.html", null ],
-    [ "Core.h", "_core_8h_source.html", null ],
-    [ "CppTypes.h", "_cpp_types_8h_source.html", null ],
-    [ "IAction.h", "_i_action_8h_source.html", null ],
-    [ "Level.h", "_level_8h.html", [
-      [ "Level", "class_t_g_engine_1_1_core_1_1_level.html", "class_t_g_engine_1_1_core_1_1_level" ]
+    [ "Actor.h", "Actor_8h.html", [
+      [ "Actor", "classTRPGEngine_1_1Core_1_1Actor.html", "classTRPGEngine_1_1Core_1_1Actor" ]
     ] ],
-    [ "World.h", "_world_8h_source.html", null ]
+    [ "ChangeLevel.h", "ChangeLevel_8h.html", [
+      [ "ChangeLevel", "classTGEngine_1_1Gameplay_1_1ChangeLevel.html", "classTGEngine_1_1Gameplay_1_1ChangeLevel" ]
+    ] ],
+    [ "Core.h", "Core_8h.html", null ],
+    [ "CppTypes.h", "CppTypes_8h.html", "CppTypes_8h" ],
+    [ "IAction.h", "IAction_8h.html", [
+      [ "IAction", "classTGEngine_1_1Gameplay_1_1IAction.html", "classTGEngine_1_1Gameplay_1_1IAction" ]
+    ] ],
+    [ "Level.h", "Level_8h.html", [
+      [ "Level", "classTGEngine_1_1Core_1_1Level.html", "classTGEngine_1_1Core_1_1Level" ]
+    ] ],
+    [ "World.h", "World_8h.html", [
+      [ "World", "classTGEngine_1_1Core_1_1World.html", "classTGEngine_1_1Core_1_1World" ]
+    ] ]
 ];
