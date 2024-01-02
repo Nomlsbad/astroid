@@ -1,7 +1,7 @@
 var files_dup =
 [
     [ "Actor.h", "Actor_8h.html", [
-      [ "Actor", "classTRPGEngine_1_1Core_1_1Actor.html", "classTRPGEngine_1_1Core_1_1Actor" ]
+      [ "Actor", "classTGEngine_1_1Core_1_1Actor.html", "classTGEngine_1_1Core_1_1Actor" ]
     ] ],
     [ "ChangeLevel.h", "ChangeLevel_8h.html", [
       [ "ChangeLevel", "classTGEngine_1_1Gameplay_1_1ChangeLevel.html", "classTGEngine_1_1Gameplay_1_1ChangeLevel" ]

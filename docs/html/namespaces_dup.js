@@ -1,5 +1,4 @@
 var namespaces_dup =
 [
-    [ "TGEngine", "namespaceTGEngine.html", "namespaceTGEngine" ],
-    [ "TRPGEngine", "namespaceTRPGEngine.html", "namespaceTRPGEngine" ]
+    [ "TGEngine", "namespaceTGEngine.html", "namespaceTGEngine" ]
 ];
