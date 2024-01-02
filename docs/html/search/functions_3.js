@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['findactorlocation_48',['findActorLocation',['../classTGEngine_1_1Core_1_1World.html#a970f34a1d5356728287d84cc5d09518f',1,'TGEngine::Core::World']]],
-  ['findlevelbyname_49',['findLevelByName',['../classTGEngine_1_1Core_1_1World.html#aa8be17f87337acfe50d7e40bed86435a',1,'TGEngine::Core::World']]]
+  ['findactorlocation_46',['findActorLocation',['../classTGEngine_1_1Game_1_1World.html#af359bdec0b835b3bcfa57f5f82ded708',1,'TGEngine::Game::World']]],
+  ['findlevelbyname_47',['findLevelByName',['../classTGEngine_1_1Game_1_1World.html#aec29830e1c9842915746472d991b4a92',1,'TGEngine::Game::World']]]
 ];

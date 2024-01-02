@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['changelevel_45',['ChangeLevel',['../classTGEngine_1_1Gameplay_1_1ChangeLevel.html#ac261d5edf614813d1ae22e50161b4b77',1,'TGEngine::Gameplay::ChangeLevel']]],
-  ['check_46',['check',['../classTGEngine_1_1Gameplay_1_1ChangeLevel.html#a19dbb578acb5939b7a71e67ad3da327c',1,'TGEngine::Gameplay::ChangeLevel::check()'],['../classTGEngine_1_1Gameplay_1_1IAction.html#a59ebb8f49ef277f316d69ef58cfac279',1,'TGEngine::Gameplay::IAction::check()']]]
+  ['changelevel_43',['ChangeLevel',['../classTGEngine_1_1Game_1_1ChangeLevel.html#a7dffe3cc62712c177647492375c1ec74',1,'TGEngine::Game::ChangeLevel']]],
+  ['check_44',['check',['../classTGEngine_1_1Game_1_1ChangeLevel.html#a48cf08f1a6f13996641828bb78bab868',1,'TGEngine::Game::ChangeLevel::check()'],['../classTGEngine_1_1Game_1_1IAction.html#a461590df86422a6b8fd69883bcd40946',1,'TGEngine::Game::IAction::check()']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_3d_54',['operator=',['../classTGEngine_1_1Core_1_1Level.html#aa46eb4b9b04db91c1841ae96cc3f6345',1,'TGEngine::Core::Level::operator=(const Level &amp;level)=delete'],['../classTGEngine_1_1Core_1_1Level.html#a8b8ac7716cfecc6cd886ff353f86c15b',1,'TGEngine::Core::Level::operator=(Level &amp;&amp;level)=default']]]
+  ['operator_3d_52',['operator=',['../classTGEngine_1_1Game_1_1Level.html#acd42765c66af87b68bf29725d6da3557',1,'TGEngine::Game::Level::operator=(const Level &amp;level)=delete'],['../classTGEngine_1_1Game_1_1Level.html#ab504e5c0246406480be139f0d1a586f3',1,'TGEngine::Game::Level::operator=(Level &amp;&amp;level)=default']]]
 ];
