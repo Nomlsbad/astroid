@@ -1,18 +1,18 @@
 var annotated_dup =
 [
-    [ "TGEngine", null, [
-      [ "Core", null, [
-        [ "Level", "class_t_g_engine_1_1_core_1_1_level.html", "class_t_g_engine_1_1_core_1_1_level" ],
-        [ "World", "class_t_g_engine_1_1_core_1_1_world.html", "class_t_g_engine_1_1_core_1_1_world" ]
+    [ "TGEngine", "namespaceTGEngine.html", [
+      [ "Core", "namespaceTGEngine_1_1Core.html", [
+        [ "Level", "classTGEngine_1_1Core_1_1Level.html", "classTGEngine_1_1Core_1_1Level" ],
+        [ "World", "classTGEngine_1_1Core_1_1World.html", "classTGEngine_1_1Core_1_1World" ]
       ] ],
-      [ "Gameplay", null, [
-        [ "ChangeLevel", "class_t_g_engine_1_1_gameplay_1_1_change_level.html", "class_t_g_engine_1_1_gameplay_1_1_change_level" ],
-        [ "IAction", "class_t_g_engine_1_1_gameplay_1_1_i_action.html", "class_t_g_engine_1_1_gameplay_1_1_i_action" ]
+      [ "Gameplay", "namespaceTGEngine_1_1Gameplay.html", [
+        [ "ChangeLevel", "classTGEngine_1_1Gameplay_1_1ChangeLevel.html", "classTGEngine_1_1Gameplay_1_1ChangeLevel" ],
+        [ "IAction", "classTGEngine_1_1Gameplay_1_1IAction.html", "classTGEngine_1_1Gameplay_1_1IAction" ]
       ] ]
     ] ],
-    [ "TRPGEngine", null, [
-      [ "Core", null, [
-        [ "Actor", "class_t_r_p_g_engine_1_1_core_1_1_actor.html", "class_t_r_p_g_engine_1_1_core_1_1_actor" ]
+    [ "TRPGEngine", "namespaceTRPGEngine.html", [
+      [ "Core", "namespaceTRPGEngine_1_1Core.html", [
+        [ "Actor", "classTRPGEngine_1_1Core_1_1Actor.html", "classTRPGEngine_1_1Core_1_1Actor" ]
       ] ]
     ] ]
 ];
