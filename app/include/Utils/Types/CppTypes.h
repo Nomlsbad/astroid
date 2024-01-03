@@ -15,14 +15,9 @@ using WeakPtr = std::weak_ptr<T>;
 
 } // namespace TGEngine::Types
 
-namespace TGEngine::Core
+namespace TGEngine::Game
 {
 using namespace TGEngine::Types;
-} // namespace TGEngine::Core
-
-namespace TGEngine::Gameplay
-{
-using namespace TGEngine::Types;
-} // namespace TGEngine::Gameplay
+} // namespace TGEngine::Game
 
 #endif // TYPES_H

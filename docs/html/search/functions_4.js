@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getname_50',['getName',['../classTGEngine_1_1Core_1_1Level.html#aeba4108dd5525788e7e227de3fee35e8',1,'TGEngine::Core::Level']]]
+  ['getname_48',['getName',['../classTGEngine_1_1Game_1_1Level.html#a905c1343d388c11cf6b834e7b52546b9',1,'TGEngine::Game::Level']]]
 ];
