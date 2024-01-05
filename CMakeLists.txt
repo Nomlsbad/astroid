@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26)
-project(astroid LANGUAGES CXX)
+project(tgengine LANGUAGES CXX)
 
 #C++ compiler
 set(CMAKE_CXX_STANDARD 20)
