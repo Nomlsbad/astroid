@@ -1,2 +1,2 @@
-# cplus-template
-Template repository for C++ projects with CMake
+# TGEngine
+Simple engine for game based games
