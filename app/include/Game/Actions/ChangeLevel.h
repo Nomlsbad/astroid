@@ -7,14 +7,23 @@
 namespace TGEngine::Game
 {
 
+/**
+ * @class ChangeLevel
+ * @brief Action for changing level.
+ */
 class ChangeLevel final: public IAction
 {
 public:
 
+    /**
+     * @brief Action's constuctor.
+     * @param level pointer to a new level
+     */
     explicit ChangeLevel(WeakPtr<Level> level);
 
+    [[nodiscard]]
+    bool check(const SharedPtr<Actor>& target) const override;
     void doAction(const SharedPtr<Actor>& target) const override;
-    [[nodiscard]] bool check(const SharedPtr<Actor>& target) const override;
 
 private:
 
