@@ -5,7 +5,9 @@
 using TGEngine::Game::Level;
 using TGEngine::Game::World;
 
-Level::Level(std::string name): name(std::move(name)) {}
+Level::Level(std::string name)
+    : name(std::move(name))
+{}
 
 void Level::transferActor(const SharedPtr<Actor>& actor)
 {
