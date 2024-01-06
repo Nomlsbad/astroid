@@ -44,7 +44,7 @@ public:
      * @return string with level's name
      */
     [[nodiscard]]
-    constexpr std::string getName() const
+    std::string getName() const
     {
         return name;
     }
