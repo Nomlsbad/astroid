@@ -20,7 +20,9 @@ jobs:
           cxx-compiler: g++
 
       - name: Build Project
-        run: cmake --build build
+        run: |
+          g++ --version
+          cmake --build build
 
       - name: Test Project
         run: ctest --test-dir build
