@@ -2,6 +2,7 @@ Language: Cpp
 
 AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Right
 AllowShortBlocksOnASingleLine: Empty
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortEnumsOnASingleLine: false
@@ -31,11 +32,14 @@ BraceWrapping:
   SplitEmptyFunction: false
   SplitEmptyRecord: false
   SplitEmptyNamespace: false
-BreakConstructorInitializers: BeforeColon
+BreakAfterAttributes: Always
 BreakBeforeTernaryOperators: true
-BreakInheritanceList: AfterColon
+BreakBeforeConceptDeclarations: Always
+BreakConstructorInitializers: BeforeColon
+BreakInheritanceList: BeforeColon
 
 ColumnLimit: 120
+CompactNamespaces: false
 Cpp11BracedListStyle: true
 
 EmptyLineAfterAccessModifier: Always
@@ -62,11 +66,11 @@ KeepEmptyLinesAtTheStartOfBlocks: false
 
 LambdaBodyIndentation: Signature
 
-MaxEmptyLinesToKeep: 1
+MaxEmptyLinesToKeep: 2
 
 NamespaceIndentation: None
 
-PackConstructorInitializers: BinPack
+PackConstructorInitializers: Never
 PointerAlignment: Left
 ReferenceAlignment: Pointer
 RequiresClausePosition: OwnLine
