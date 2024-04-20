@@ -31,8 +31,11 @@ constexpr std::string_view type_name()
 namespace TGEngine::Core
 {
 
+template<typename DelegateSignature>
+class IDelegate;
+
 template<typename RetVal, typename... Args>
-class IDelegate
+class IDelegate<RetVal(Args...)>
 {
 public:
 
@@ -44,7 +47,7 @@ template<typename Function, typename DelegateSignature, typename... Payload>
 class StaticDelegate;
 
 template<typename Function, typename RetVal, typename... Args, typename... Payload>
-class StaticDelegate<Function, RetVal(Args...), Payload...>: public IDelegate<RetVal, Args...>
+class StaticDelegate<Function, RetVal(Args...), Payload...>: public IDelegate<RetVal(Args...)>
 {
 public:
 
@@ -83,7 +86,7 @@ template<typename Lambda, typename DelegateSignature, typename... Payload>
 class LambdaDelegate;
 
 template<typename Lambda, typename RetVal, typename... Args, typename... Payload>
-class LambdaDelegate<Lambda, RetVal(Args...), Payload...>: public IDelegate<RetVal, Args...>
+class LambdaDelegate<Lambda, RetVal(Args...), Payload...>: public IDelegate<RetVal(Args...)>
 {
 public:
 
@@ -122,7 +125,7 @@ template<typename Method, typename T, bool IsConst, typename DelegateSignature, 
 class MethodDelegate;
 
 template<typename Method, typename T, bool IsConst, typename RetVal, typename... Args, typename... Payload>
-class MethodDelegate<Method, T, IsConst, RetVal(Args...), Payload...>: public IDelegate<RetVal, Args...>
+class MethodDelegate<Method, T, IsConst, RetVal(Args...), Payload...>: public IDelegate<RetVal(Args...)>
 {
 public:
 

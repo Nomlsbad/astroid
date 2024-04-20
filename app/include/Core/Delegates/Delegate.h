@@ -8,7 +8,6 @@
 #include <optional>
 #include <type_traits>
 
-
 namespace TGEngine::Core
 {
 
@@ -19,18 +18,22 @@ concept Invocable = requires(Function func, Args... args) {
     } -> std::same_as<RetVal>;
 };
 
-template<typename DelegateSignature>
+template<typename DelegateSignature, typename Allocator = DelegateAllocator<IDelegate<DelegateSignature>>>
 class Binder;
 
-template<typename RetVal, typename... Args>
-class Binder<RetVal(Args...)>
+template<typename RetVal, typename... Args, typename Allocator>
+class Binder<RetVal(Args...), Allocator>
 {
 public:
 
     Binder()
         : executer(nullptr)
         , delegate(nullptr)
-    {}
+        , storage()
+        , allocator(storage)
+    {
+        std::cout << type_name<Allocator>() << "\n";
+    }
 
     Binder(const Binder&) = delete;
     Binder& operator= (const Binder&) = delete;
@@ -101,9 +104,16 @@ private:
     template<typename DelegateType, typename Callable, typename... ConstructionArgs>
     void bind(Callable&& callable, ConstructionArgs&&... args)
     {
+        using DelegateTypeAllocator = typename std::allocator_traits<Allocator>::template rebind_alloc<DelegateType>;
+
         if (isBound()) unbind();
+
+        DelegateTypeAllocator delegateTypeAllocator(storage);
+        auto specificDelegate = std::allocator_traits<DelegateTypeAllocator>::allocate(delegateTypeAllocator, 1);
+        std::allocator_traits<Allocator>::construct(allocator, specificDelegate, std::forward<Callable>(callable),
+                                                    std::forward<ConstructionArgs>(args)...);
+        delegate = specificDelegate;
         executer = execute<DelegateType>;
-        delegate = new DelegateType(std::forward<Callable>(callable), std::forward<ConstructionArgs>(args)...);
     }
 
 public:
@@ -114,40 +124,44 @@ public:
         return delegate != nullptr;
     }
 
-    void unbind() const
+    void unbind()
     {
-        ///
-        delete delegate;
+        std::allocator_traits<Allocator>::destroy(allocator, delegate);
+        std::allocator_traits<Allocator>::deallocate(allocator, delegate, 1);
     }
 
 private:
 
-    using ErasedDelegate = IDelegate<RetVal, Args...>*;
+    using ErasedDelegate = IDelegate<RetVal(Args...)>;
 
     template<typename DelegateType>
-    constexpr static RetVal execute(ErasedDelegate delegate, Args&&... args)
+    constexpr static RetVal execute(ErasedDelegate* delegate, Args&&... args)
     {
+        assert(delegate);
         return static_cast<DelegateType&>(*delegate).execute(std::forward<Args>(args)...);
     }
 
 protected:
 
-    using Executer = Types::FunctionPtr<RetVal, ErasedDelegate, Args&&...>;
+    using Executer = Types::FunctionPtr<RetVal, ErasedDelegate*, Args&&...>;
 
     Executer executer;
-    ErasedDelegate delegate;
+    ErasedDelegate* delegate;
+
+    StackStorage<32, 8> storage;
+    Allocator allocator;
 };
 
 
-template<typename DelegateSignature>
+template<typename DelegateSignature, typename Allocator = DelegateAllocator<IDelegate<DelegateSignature>>>
 class Delegate;
 
-template<typename RetVal, typename... Args>
-class Delegate<RetVal(Args...)> final: public Binder<RetVal(Args...)>
+template<typename RetVal, typename... Args, typename Allocator>
+class Delegate<RetVal(Args...), Allocator> final: public Binder<RetVal(Args...), Allocator>
 {
 public:
 
-    using Super = Binder<RetVal(Args...)>;
+    using Super = Binder<RetVal(Args...), Allocator>;
 
     [[nodiscard]]
     RetVal execute(Args... args) const
