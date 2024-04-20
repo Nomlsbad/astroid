@@ -1,26 +1,8 @@
-#include <functional>
-#include <iostream>
+#include "Core/Delegates/Delegate.h"
+#include "Core/Memory/StackStorage.h"
 
-template<class T>
-constexpr std::string_view type_name()
-{
-    using namespace std;
-#ifdef __clang__
-    string_view p = __PRETTY_FUNCTION__;
-    return string_view(p.data() + 34, p.size() - 34 - 1);
-#elif defined(__GNUC__)
-    string_view p = __PRETTY_FUNCTION__;
-#if __cplusplus < 201'402
-    return string_view(p.data() + 36, p.size() - 36 - 1);
-#else
-    return string_view(p.data() + 49, p.find(';', 49) - 49);
-#endif
-#elif defined(_MSC_VER)
-    string_view p = __FUNCSIG__;
-    return string_view(p.data() + 84, p.size() - 84 - 7);
-#endif
-    return std::string_view {};
-}
+#include <array>
+#include <iostream>
 
 struct A
 {
@@ -43,69 +25,43 @@ struct A
     }
 };
 
-class IDelegate
+using namespace TGEngine::Core;
+
+int f(A)
 {
-public:
+    return 2;
+}
 
-    template<typename Func, typename... Args>
-    requires std::invocable<Func, Args...>
-    auto execute(Func&& func, Args&&... args)
-    {
-        return std::invoke(std::forward<Func>(func), std::forward<Args>(args)...);
-    }
-
-    virtual ~IDelegate() = default;
-};
-
-template<typename Lambda, typename... Payload>
-class LambdaDelegate: public IDelegate
+int g(int n, const A&)
 {
-public:
+    return n * n;
+}
 
-    template<typename TLambda, typename... TPayload>
-    explicit LambdaDelegate(TLambda&& lambda, TPayload&&... payload)
-        : func(std::forward<TLambda>(lambda)),
-          payload(std::forward<TPayload>(payload)...)
-    {}
-
-private:
-
-    Lambda func;
-    std::tuple<Payload...> payload;
-};
-
-template<typename Lambda, typename... Payload>
-explicit LambdaDelegate(Lambda&& lambda, Payload&&... payload)
-    -> LambdaDelegate<std::remove_reference_t<Lambda>, std::remove_reference_t<Payload>...>;
-
-template <typename T>
-struct Test
+struct S
 {
-    explicit Test(T t) : t(t) {};
-    T t;
-};
+    int foo(int, A&) { return 1; }
 
-template <typename RetVal, typename... Args>
-struct Test<RetVal (Args...)>
-{
+    int bar(int, A) const { return -1; }
 };
-
-std::string foo(int, double&, char&&);
 
 int main()
 {
-    A aa;
+    S s;
+    const S cs;
 
-    LambdaDelegate ld1([aa]() { return 1; });
+    const A ca;
+    A a;
 
-    auto l = [aa]() { return 2; };
-    LambdaDelegate ld2(l, 1);
+    Delegate<int(int)> delegate;
 
-    std::cout << type_name<decltype(ld1)>() << "\n";
-    std::cout << type_name<decltype(ld2)>() << "\n";
+    auto l = [](int, A&) { return 1; };
+    delegate.bindLambda(l, A());
+    std::cout << delegate.execute(5) << "\n";
 
-    Test<decltype(foo)> t;
-    std::cout << type_name<decltype(t)>() << "\n";
+    delegate.bindStatic(&g, a);
+
+    delegate.bindMethod(&S::foo, &s, ca);
+    delegate.bindMethod(&S::bar, &cs, a);
 
     return 0;
 }
