@@ -33,6 +33,7 @@
 
 # CMake
 cmake-build-*/
+builds/
 
 # IDE files
 .idea
