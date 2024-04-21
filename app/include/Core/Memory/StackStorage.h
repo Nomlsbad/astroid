@@ -1,11 +1,10 @@
-#ifndef STACKALLOCATOR_H
-#define STACKALLOCATOR_H
+#ifndef TGENGINE_STACK_ALLOCATOR_H
+#define TGENGINE_STACK_ALLOCATOR_H
 
 #include <array>
 #include <cassert>
 #include <cstddef>
 #include <memory>
-
 
 template<size_t N, size_t Align = sizeof(std::max_align_t)>
 class StackStorage
@@ -14,7 +13,7 @@ public:
 
     constexpr StackStorage()
         : buffer()
-        , ptr(buffer.data())
+        , ptr(buffer)
     {}
 
     StackStorage(const StackStorage&) = delete;
@@ -29,39 +28,44 @@ public:
     void* push(size_t bytes)
     {
         void* currentPtr = ptr;
-        ptr += bytes;
+        ptr += alignUp(bytes);
         return currentPtr;
     }
 
     void pop(const void* p, size_t bytes)
     {
-        assert(p != ptr - bytes);
+        bytes = alignUp(bytes);
+        assert(p == ptr - bytes);
         ptr -= bytes;
     }
 
     [[nodiscard]]
     bool contains(const void* p) const
     {
-        return p && p >= buffer.cbegin() && p < buffer.cend();
+        return p && p >= buffer && p < buffer + N;
     }
 
     [[nodiscard]]
     size_t used() const
     {
-        return std::distance<const std::byte*>(ptr, buffer.data());
+        return static_cast<size_t>(ptr - buffer);
     }
 
     [[nodiscard]]
     bool isEmpty() const
     {
-        return ptr == buffer.cbegin();
+        return ptr == buffer;
     }
 
 private:
 
-    alignas(Align) std::array<std::byte, N> buffer;
+    static size_t alignUp(std::size_t n) noexcept { return (n + (align - 1)) & ~(align - 1); }
+
+private:
+
+    alignas(align) std::byte buffer[size];
     std::byte* ptr;
 };
 
 
-#endif // STACKALLOCATOR_H
+#endif // TGENGINE_STACK_ALLOCATOR_H
