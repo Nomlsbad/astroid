@@ -1,7 +1,5 @@
 #include "Core/Delegates/Delegate.h"
-#include "Core/Memory/StackStorage.h"
 
-#include <array>
 #include <iostream>
 
 struct A
@@ -26,8 +24,9 @@ struct A
 };
 
 using namespace TGEngine::Core;
+using namespace TGEngine::Types;
 
-int f(A)
+int f(int)
 {
     return 2;
 }
@@ -42,6 +41,8 @@ struct S
     int foo(int, A&) { return 1; }
 
     int bar(int, A) const { return -1; }
+
+    int hul(int, double) {return 0;}
 };
 
 int main()
@@ -54,14 +55,19 @@ int main()
 
     Delegate<int(int)> delegate;
 
-    auto l = [](int, A&) { return 1; };
-    delegate.bindLambda(l, A());
-    std::cout << delegate.execute(5) << "\n";
+    auto l = [](int, double) { return 1; };
+    delegate.bindLambda(l ,3.14);
+    delegate.bindLambda([](int) {return 1;});
 
-    delegate.bindStatic(&g, a);
+    delegate.bindStatic(&g, A());
+    delegate.bindStatic(&f);
 
     delegate.bindMethod(&S::foo, &s, ca);
+    delegate.bindMethod(&S::hul, &s, 1.0);
     delegate.bindMethod(&S::bar, &cs, a);
+
+    Delegate delegate1 = delegate;
+    std::cout << delegate1.execute(1) << " \n";
 
     return 0;
 }
