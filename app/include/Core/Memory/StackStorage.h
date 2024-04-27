@@ -1,10 +1,8 @@
-#ifndef TGENGINE_STACK_ALLOCATOR_H
-#define TGENGINE_STACK_ALLOCATOR_H
+#ifndef TGENGINE_STACK_STORAGE_H
+#define TGENGINE_STACK_STORAGE_H
 
-#include <array>
 #include <cassert>
 #include <cstddef>
-#include <memory>
 
 template<size_t N, size_t Align = sizeof(std::max_align_t)>
 class StackStorage
@@ -27,6 +25,8 @@ public:
     [[nodiscard]]
     void* push(size_t bytes)
     {
+        if (!canAllocate(bytes)) return nullptr;
+
         void* currentPtr = ptr;
         ptr += alignUp(bytes);
         return currentPtr;
@@ -37,6 +37,12 @@ public:
         bytes = alignUp(bytes);
         assert(p == ptr - bytes);
         ptr -= bytes;
+    }
+
+    [[nodiscard]]
+    bool canAllocate(size_t bytes)
+    {
+        return used() + bytes <= size;
     }
 
     [[nodiscard]]
@@ -68,4 +74,4 @@ private:
 };
 
 
-#endif // TGENGINE_STACK_ALLOCATOR_H
+#endif // TGENGINE_STACK_STORAGE_H
