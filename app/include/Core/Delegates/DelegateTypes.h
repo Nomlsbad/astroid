@@ -2,6 +2,7 @@
 #define TGENGINE_DELEGATE_TYPES_H
 
 #include "Core/Types/Callable.h"
+#include "ErasedFunctions.h"
 
 #include <iostream>
 #include <string_view>
@@ -28,16 +29,20 @@ constexpr std::string_view type_name()
     return std::string_view {};
 }
 
-namespace TGEngine::Core
+namespace TGEngine::Core::_DelegateInternals
 {
 
 template<typename DelegateSignature>
 class IDelegate;
 
-template<typename RetVal, typename... Args>
-class IDelegate<RetVal(Args...)>
+template<typename R, typename... Args>
+class IDelegate<R(Args...)>
 {
 public:
+
+    using RetVal = R;
+    using Signature = RetVal(Args...);
+    using Erased = IDelegate<Signature>;
 
     virtual ~IDelegate() = default;
 };
@@ -54,11 +59,9 @@ public:
     constexpr explicit StaticDelegate(Function function, Payload&&... payload)
         : function(function)
         , payload(std::forward<Payload>(payload)...)
-    {
-        std::cout << "\nStaticDelegate\n";
-        std::cout << type_name<decltype(this->function)>() << "\n";
-        std::cout << type_name<decltype(this->payload)>() << "\n";
-    }
+    {}
+
+    constexpr StaticDelegate(const StaticDelegate& delegate) = default;
 
     [[nodiscard]]
     constexpr RetVal execute(Args&&... args)
@@ -69,7 +72,6 @@ public:
 private:
 
     template<std::size_t... I>
-    [[nodiscard]]
     constexpr RetVal executeWithPayload(Args&&... args, std::index_sequence<I...>)
     {
         return function(std::forward<Args>(args)..., std::get<I>(payload)...);
@@ -78,6 +80,8 @@ private:
 private:
 
     Function function;
+
+    [[no_unique_address]]
     std::tuple<Payload...> payload;
 };
 
@@ -93,11 +97,9 @@ public:
     constexpr explicit LambdaDelegate(Lambda&& lambda, Payload&&... payload)
         : lambda(std::forward<Lambda>(lambda))
         , payload(std::forward<Payload>(payload)...)
-    {
-        std::cout << "\nLambdaDelegate\n";
-        std::cout << type_name<decltype(this->lambda)>() << "\n";
-        std::cout << type_name<decltype(this->payload)>() << "\n";
-    }
+    {}
+
+    constexpr LambdaDelegate(const LambdaDelegate& delegate) = default;
 
     [[nodiscard]]
     constexpr RetVal execute(Args&&... args)
@@ -108,7 +110,6 @@ public:
 private:
 
     template<std::size_t... I>
-    [[nodiscard]]
     constexpr RetVal executeWithPayload(Args&&... args, std::index_sequence<I...>)
     {
         return lambda(std::forward<Args>(args)..., std::get<I>(payload)...);
@@ -116,7 +117,10 @@ private:
 
 private:
 
+    [[no_unique_address]]
     std::remove_reference_t<Lambda> lambda;
+
+    [[no_unique_address]]
     std::tuple<Payload...> payload;
 };
 
@@ -135,12 +139,9 @@ public:
         : method(method)
         , object(object)
         , payload(std::forward<Payload>(payload)...)
-    {
-        std::cout << "\nMethodDelegate\n";
-        std::cout << type_name<decltype(this->method)>() << "\n";
-        std::cout << type_name<decltype(this->object)>() << "\n";
-        std::cout << type_name<decltype(this->payload)>() << "\n";
-    }
+    {}
+
+    constexpr MethodDelegate(const MethodDelegate& delegate) = default;
 
     [[nodiscard]]
     constexpr RetVal execute(Args&&... args)
@@ -151,7 +152,6 @@ public:
 private:
 
     template<std::size_t... I>
-    [[nodiscard]]
     constexpr RetVal executeWithPayload(Args&&... args, std::index_sequence<I...>)
     {
         return (object->*method)(std::forward<Args>(args)..., std::get<I>(payload)...);
@@ -161,9 +161,11 @@ private:
 
     Method method;
     Object object;
+
+    [[no_unique_address]]
     std::tuple<Payload...> payload;
 };
 
-} // namespace TGEngine::Core
+} // namespace TGEngine::Core::_DelegateInternals
 
 #endif // TGENGINE_DELEGATE_TYPES_H
