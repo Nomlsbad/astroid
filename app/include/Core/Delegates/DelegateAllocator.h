@@ -1,20 +1,18 @@
 #ifndef TGENGINE_DELEGATE_ALLOCATOR_H
 #define TGENGINE_DELEGATE_ALLOCATOR_H
 
-#include "Core/Memory/StackStorage.h"
 #include "DelegateTypes.h"
 
-namespace TGEngine::Core
+namespace TGEngine::Core::_DelegateInternals
 {
 
-// TODO: implement DelegateType concept
-template<typename DelegateType, typename Storage>
+template<DelegateType Delegate, typename Storage>
 class DelegateAllocator
 {
 public:
 
-    using value_type = DelegateType;
-    using ErasedDelegate = DelegateType::Erased;
+    using value_type = Delegate;
+    using ErasedDelegate = Delegate::Erased;
 
     constexpr explicit DelegateAllocator(Storage& storage)
         : storage(storage)
@@ -24,60 +22,58 @@ public:
         : storage(other.storage)
     {}
 
-    template<typename ODelegateType>
-    constexpr explicit DelegateAllocator(const DelegateAllocator<ODelegateType, Storage>& other)
+    template<typename OtherDelegate>
+    constexpr explicit DelegateAllocator(const DelegateAllocator<OtherDelegate, Storage>& other)
         : storage(other.storage)
     {}
 
-    template<typename ODelegateType, typename OStorage>
-    bool operator== (const DelegateAllocator<ODelegateType, OStorage>& allocator) const
+    template<DelegateType OtherDelegate, typename OStorage>
+    friend class DelegateAllocator;
+
+    template<DelegateType OtherDelegate, typename OStorage>
+    bool operator== (const DelegateAllocator<OtherDelegate, OStorage>& allocator) const
     {
-        return std::is_same_v<OStorage, Storage> && &storage == &allocator.storage;
+        return &storage == &allocator.storage && std::is_base_of_v<ErasedDelegate, OtherDelegate>;
     }
 
 public:
 
     [[nodiscard]]
-    DelegateType* allocate(size_t)
+    Delegate* allocate(size_t)
     {
-        const size_t bytes = sizeof(DelegateType);
-        auto ptr = canAllocateInStorage(bytes) ? storage.push(bytes) : std::malloc(bytes);
-        return static_cast<DelegateType*>(ptr);
-    }
-
-    void deallocate(DelegateType* delegate, size_t)
-    {
-        const size_t used = storage.used();
-        hasStorageAllocation(delegate) ? storage.pop(delegate, used) : std::free(delegate);
+        const size_t bytes = sizeof(Delegate);
+        return static_cast<Delegate*>(reserve(bytes));
     }
 
     [[nodiscard]]
     ErasedDelegate* allocateCopy(const Storage& copyStorage)
     {
         const size_t bytes = copyStorage.used();
-        auto ptr = canAllocateInStorage(bytes) ? storage.push(bytes) : std::malloc(bytes);
-        return static_cast<ErasedDelegate*>(ptr);
+        return static_cast<ErasedDelegate*>(reserve(bytes));
+    }
+
+    void deallocate(Delegate* delegate, size_t)
+    {
+        const size_t used = storage.used();
+        hasStorageAllocation(delegate) ? storage.deallocate(delegate, used) : std::free(delegate);
     }
 
 private:
 
-    [[nodiscard]]
-    bool canAllocateInStorage(size_t bytes) const
+    void* reserve(std::size_t bytes)
     {
-        return storage.isEmpty() && storage.canAllocate(bytes);
+        return canAllocateInStorage(bytes) ? storage.allocate(bytes) : std::aligned_alloc(alignof(Delegate), bytes);
     }
 
-    [[nodiscard]]
-    bool hasStorageAllocation(DelegateType* delegate) const
-    {
-        return storage.contains(delegate);
-    }
+    bool canAllocateInStorage(size_t bytes) const { return storage.isEmpty() && storage.canAllocate(bytes); }
+
+    bool hasStorageAllocation(Delegate* delegate) const { return storage.contains(delegate); }
 
 private:
 
     Storage& storage;
 };
 
-} // namespace TGEngine::Core
+} // namespace TGEngine::Core::_DelegateInternals
 
 #endif // TGENGINE_DELEGATE_ALLOCATOR_H

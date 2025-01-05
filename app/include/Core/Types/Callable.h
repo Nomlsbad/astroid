@@ -1,7 +1,7 @@
 #ifndef TGENGINE_CALLABLE_H
 #define TGENGINE_CALLABLE_H
 
-namespace TGEngine::Types
+namespace TGEngine::Core
 {
 
 namespace internal
@@ -33,7 +33,7 @@ using ConstMethodPtr = RetVal (T::*)(Args...) const;
 template<typename RetVal, typename... Args>
 using FunctionPtr = RetVal (*)(Args...);
 
-} // namespace TGEngine::Types
+} // namespace TGEngine::Core
 
 
 #endif // TGENGINE_CALLABLE_H

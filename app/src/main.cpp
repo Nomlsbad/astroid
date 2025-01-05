@@ -24,7 +24,7 @@ struct A
 };
 
 using namespace TGEngine::Core;
-using namespace TGEngine::Types;
+using namespace TGEngine::Core;
 
 int f(int)
 {
@@ -42,7 +42,20 @@ struct S
 
     int bar(int, A) const { return -1; }
 
-    int hul(int, double) {return 0;}
+    int hul(int, double) { return 0; }
+};
+
+template<bool B>
+struct BB
+{
+    bool b = B;
+};
+
+template<typename T>
+void showT(T&)
+{
+    constexpr bool isConst = std::is_const_v<T>;
+    std::cout << BB<isConst> {}.b;
 };
 
 int main()
@@ -56,8 +69,8 @@ int main()
     Delegate<int(int)> delegate;
 
     auto l = [](int, double) { return 1; };
-    delegate.bindLambda(l ,3.14);
-    delegate.bindLambda([](int) {return 1;});
+    delegate.bindLambda(l, 3.14);
+    delegate.bindLambda([](int) { return 1; });
 
     delegate.bindStatic(&g, A());
     delegate.bindStatic(&f);
@@ -68,6 +81,9 @@ int main()
 
     Delegate delegate1 = delegate;
     std::cout << delegate1.execute(1) << " \n";
+
+    const int r {};
+    showT(r);
 
     return 0;
 }

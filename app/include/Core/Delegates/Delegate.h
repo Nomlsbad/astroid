@@ -1,13 +1,16 @@
-#ifndef DELEGATE_H
-#define DELEGATE_H
+#ifndef TGENGINE_DELEGATE_H
+#define TGENGINE_DELEGATE_H
 
+#include "Core/Memory/StackStorage.h"
+#include "Core/Types/Callable.h"
 #include "DelegateAllocator.h"
-#include "DelegateTypes.h"
+#include "ErasedFunctions.h"
 
 #include <optional>
 
 namespace TGEngine::Core
 {
+
 
 template<typename DelegateSignature>
 class Delegate;
@@ -15,26 +18,28 @@ class Delegate;
 template<typename RetVal, typename... Args>
 class Delegate<RetVal(Args...)>
 {
+private:
+
+    using ErasedDelegate = _DelegateInternals::IDelegate<RetVal(Args...)>;
+
+    using Executer = FunctionPtr<RetVal, ErasedDelegate*, Args&&...>;
+    using Constructor = FunctionPtr<ErasedDelegate*, ErasedDelegate*, const ErasedDelegate*>;
+
+    static constexpr size_t storageSize = 64;
+    static constexpr size_t storageAlign = 8;
+    using Storage = StackStorage<storageSize, storageAlign>;
+    using DefaultAllocator = _DelegateInternals::DelegateAllocator<ErasedDelegate, Storage>;
+
 public:
 
-    Delegate()
-        : executer(nullptr)
-        , constructor(nullptr)
-        , erasedDelegate(nullptr)
-        , storage()
-        , defaultAllocator(storage)
-    {}
+    Delegate() = default;
 
     Delegate(const Delegate& delegate)
-        : executer(delegate.executer)
+        : defaultAllocator(storage)
+        , executer(delegate.executer)
         , constructor(delegate.constructor)
-        , erasedDelegate(nullptr)
-        , storage()
-        , defaultAllocator(storage)
-    {
-        erasedDelegate = defaultAllocator.allocateCopy(delegate.storage);
-        constructor(erasedDelegate, delegate.erasedDelegate);
-    }
+        , erasedDelegate(makeCopy(delegate))
+    {}
 
     Delegate& operator= (const Delegate& delegate)
     {
@@ -43,68 +48,19 @@ public:
 
         executer = delegate.executer;
         constructor = delegate.constructor;
-        erasedDelegate = defaultAllocator.allocateCopy(delegate.storage);
-        constructor(erasedDelegate, delegate.erasedDelegate);
+        erasedDelegate = makeCopy(delegate);
 
         return *this;
     }
 
     ~Delegate() { unbind(); }
 
-public:
-
-    template<typename... ErasedArgs>
-    void bindStatic(Types::FunctionPtr<RetVal, Args..., ErasedArgs...> function, std::decay_t<ErasedArgs>... payload)
-    {
-        using namespace _DelegateInternals;
-        using DelegateType = StaticDelegate<decltype(function), RetVal(Args...), decltype(payload)...>;
-        bind<DelegateType>(function, std::move(payload)...);
-    }
-
-    template<typename Lambda, typename... Payload>
-    void bindLambda(Lambda&& lambda, Payload... payload)
-    requires std::invocable<Lambda, Args..., Payload...>
-    {
-        using namespace _DelegateInternals;
-        using DelegateType = LambdaDelegate<Lambda, RetVal(Args...), Payload...>;
-        bind<DelegateType>(std::forward<Lambda>(lambda), std::move(payload)...);
-    }
-
-    template<typename T, typename... ErasedArgs>
-    void bindMethod(Types::NotConstMethodPtr<T, RetVal, Args..., ErasedArgs...> method, T* object,
-                    std::decay_t<ErasedArgs>... payload)
-    {
-        using namespace _DelegateInternals;
-        using DelegateType = MethodDelegate<decltype(method), T, false, RetVal(Args...), decltype(payload)...>;
-        bind<DelegateType>(method, object, std::move(payload)...);
-    }
-
-    template<typename T, typename... ErasedArgs>
-    void bindMethod(Types::ConstMethodPtr<T, RetVal, Args..., ErasedArgs...> method, const T* object,
-                    std::decay_t<ErasedArgs>... payload)
-    {
-        using namespace _DelegateInternals;
-        using DelegateType = MethodDelegate<decltype(method), T, true, RetVal(Args...), decltype(payload)...>;
-        bind<DelegateType>(method, object, std::move(payload)...);
-    }
-
 private:
 
-    template<typename DelegateType, typename... ConstructionArgs>
-    void bind(ConstructionArgs&&... args)
+    ErasedDelegate* makeCopy(const Delegate& delegate)
     {
-        using Allocator = std::allocator_traits<DefaultAllocator>::template rebind_alloc<DelegateType>;
-        using AllocTraits = std::allocator_traits<Allocator>;
-
-        if (isBound()) unbind();
-
-        Allocator allocator(storage);
-        DelegateType* delegate = AllocTraits::allocate(allocator, 1);
-        AllocTraits::construct(allocator, delegate, std::forward<ConstructionArgs>(args)...);
-
-        erasedDelegate = delegate;
-        executer = _DelegateInternals::ErasedFunctions::execute<DelegateType>;
-        constructor = static_cast<Constructor>(_DelegateInternals::ErasedFunctions::construct<DelegateType>);
+        ErasedDelegate* copy = defaultAllocator.allocateCopy(delegate.storage);
+        return constructor(copy, delegate.erasedDelegate);
     }
 
 public:
@@ -138,58 +94,82 @@ public:
         return executer(erasedDelegate, std::forward<Args>(args)...);
     }
 
+public:
+
+    template<typename... ErasedArgs>
+    void bindStatic(FunctionPtr<RetVal, Args..., ErasedArgs...> function, std::decay_t<ErasedArgs>... payload)
+    {
+        using namespace _DelegateInternals;
+        using DelegateType = StaticDelegate<decltype(function), RetVal(Args...), decltype(payload)...>;
+        bind<DelegateType>(function, std::move(payload)...);
+    }
+
+    template<typename Lambda, typename... Payload>
+    void bindLambda(Lambda&& lambda, Payload... payload)
+    requires std::invocable<Lambda, Args..., Payload...>
+    {
+        using namespace _DelegateInternals;
+        using DelegateType = LambdaDelegate<Lambda, RetVal(Args...), Payload...>;
+        bind<DelegateType>(std::forward<Lambda>(lambda), std::move(payload)...);
+    }
+
+    template<typename T, typename... ErasedArgs>
+    void bindMethod(NotConstMethodPtr<T, RetVal, Args..., ErasedArgs...> method, T* object,
+                    std::decay_t<ErasedArgs>... payload)
+    {
+        constexpr bool isConst = false;
+        using namespace _DelegateInternals;
+        using DelegateType = MethodDelegate<decltype(method), T, isConst, RetVal(Args...), decltype(payload)...>;
+        bind<DelegateType>(method, object, std::move(payload)...);
+    }
+
+    template<typename T, typename... ErasedArgs>
+    void bindMethod(ConstMethodPtr<T, RetVal, Args..., ErasedArgs...> method, const T* object,
+                    std::decay_t<ErasedArgs>... payload)
+    {
+        constexpr bool isConst = true;
+        using namespace _DelegateInternals;
+        using DelegateType = MethodDelegate<decltype(method), T, isConst, RetVal(Args...), decltype(payload)...>;
+        bind<DelegateType>(method, object, std::move(payload)...);
+    }
+
 private:
 
-    using ErasedDelegate = _DelegateInternals::IDelegate<RetVal(Args...)>;
-    using Executer = Types::FunctionPtr<RetVal, ErasedDelegate*, Args&&...>;
-    using Constructor = Types::FunctionPtr<ErasedDelegate*, ErasedDelegate*, const ErasedDelegate*>;
+    template<_DelegateInternals::DelegateType DelegateType, typename... ConstructionArgs>
+    void bind(ConstructionArgs&&... args)
+    {
+        if (isBound()) unbind();
 
-    Executer executer; // Try to move to IDelegate
-    Constructor constructor;
-    ErasedDelegate* erasedDelegate;
+        erasedDelegate = makeDelegate<DelegateType>(std::forward<ConstructionArgs>(args)...);
+        executer = _DelegateInternals::execute<DelegateType>;
+        constructor = _DelegateInternals::construct<DelegateType>;
+    }
 
-    struct ControlBlock;
-    friend struct ControlBlock;
+    template<typename DelegateType, typename... ConstructionArgs>
+    ErasedDelegate* makeDelegate(ConstructionArgs&&... args)
+    {
+        using Allocator = typename std::allocator_traits<DefaultAllocator>::template rebind_alloc<DelegateType>;
+        using AllocTraits = std::allocator_traits<Allocator>;
 
-    ControlBlock block;
+        Allocator allocator(storage);
+        DelegateType* delegate = AllocTraits::allocate(allocator, 1);
+        AllocTraits::construct(allocator, delegate, std::forward<ConstructionArgs>(args)...);
+
+        return delegate;
+    }
 
 private:
 
-    static constexpr size_t storageSize = 64;
-    static constexpr size_t storageAlign = 8;
+    Storage storage;
+    DefaultAllocator defaultAllocator {storage};
 
-    using Storage = StackStorage<storageSize, storageAlign>;
-    using DefaultAllocator = DelegateAllocator<ErasedDelegate, Storage>;
-
-    Storage storage; // Try to call new for storage
-    DefaultAllocator defaultAllocator;
+    Executer executer {};
+    Constructor constructor {};
+    ErasedDelegate* erasedDelegate {};
 };
 
-template<typename RetVal, typename... Args>
-struct Delegate<RetVal(Args...)>::ControlBlock
-{
-    ControlBlock()
-        : executer(nullptr)
-        , constructor(nullptr)
-        , erasedDelegate(nullptr)
-    {}
-
-    explicit ControlBlock(DefaultAllocator& allocator, const Delegate& delegate)
-        : executer(delegate.block.executer)
-        , constructor(delegate.block.constructor)
-        , erasedDelegate(constructor(allocator.allocateCopy(delegate.storage)), delegate.erasedDelegate)
-    {}
-
-    using ErasedDelegate = _DelegateInternals::IDelegate<RetVal(Args...)>;
-    using Executer = Types::FunctionPtr<RetVal, ErasedDelegate*, Args&&...>;
-    using Constructor = Types::FunctionPtr<ErasedDelegate*, ErasedDelegate*, const ErasedDelegate*>;
-
-    Executer executer; // Try to move to IDelegate
-    Constructor constructor;
-    ErasedDelegate* erasedDelegate;
-};
 
 } // namespace TGEngine::Core
 
 
-#endif // DELEGATE_H
+#endif // TGENGINE_DELEGATE_H

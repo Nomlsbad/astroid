@@ -216,9 +216,9 @@ JAVADOC_BANNER         = YES
 QT_AUTOBRIEF           = NO
 
 # The MULTILINE_CPP_IS_BRIEF tag can be set to YES to make doxygen treat a
-# multi-line C++ special comment block (i.e. a block of //! or /// comments) as
+# multi-line C++ special comment controlBlock (i.e. a controlBlock of //! or /// comments) as
 # a brief description. This used to be the default behavior. The new default is
-# to treat a multi-line C++ comment block as a detailed description. Set this
+# to treat a multi-line C++ comment controlBlock as a detailed description. Set this
 # tag to YES if you prefer the old behavior instead.
 #
 # Note that setting this tag to YES also means that rational rose comments are
@@ -568,7 +568,7 @@ HIDE_FRIEND_COMPOUNDS  = NO
 
 # If the HIDE_IN_BODY_DOCS tag is set to YES, doxygen will hide any
 # documentation blocks found inside the body of a function. If set to NO, these
-# blocks will be appended to the function's detailed documentation block.
+# blocks will be appended to the function's detailed documentation controlBlock.
 # The default value is: NO.
 
 HIDE_IN_BODY_DOCS      = NO
@@ -1245,7 +1245,7 @@ HTML_FILE_EXTENSION    = .html
 # uses.
 # Note: The header is subject to change so you typically have to regenerate the
 # default header when upgrading to a newer version of doxygen. For a description
-# of the possible markers and block names see the documentation.
+# of the possible markers and controlBlock names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_HEADER            =
@@ -2595,7 +2595,7 @@ PLANTUML_JAR_PATH      =
 PLANTUML_CFG_FILE      =
 
 # When using plantuml, the specified paths are searched for files specified by
-# the !include statement in a plantuml block.
+# the !include statement in a plantuml controlBlock.
 
 PLANTUML_INCLUDE_PATH  =
 

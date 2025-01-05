@@ -17,5 +17,5 @@ gtest_discover_tests(${TEST_NAME})
 
 add_test(NAME ${TEST_NAME}
         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-        COMMAND ${TEST_NAME}
+        COMMAND ${TEST_NAME} "--gtest_color=yes"
 )

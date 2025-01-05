@@ -4,6 +4,9 @@
 #include <cassert>
 #include <cstddef>
 
+namespace TGEngine::Core
+{
+
 template<size_t N, size_t Align = sizeof(std::max_align_t)>
 class StackStorage
 {
@@ -23,7 +26,7 @@ public:
 public:
 
     [[nodiscard]]
-    void* push(size_t bytes)
+    constexpr void* allocate(size_t bytes)
     {
         if (!canAllocate(bytes)) return nullptr;
 
@@ -32,7 +35,7 @@ public:
         return currentPtr;
     }
 
-    void pop(const void* p, size_t bytes)
+    constexpr void deallocate([[maybe_unused]] const void* p, size_t bytes)
     {
         bytes = alignUp(bytes);
         assert(p == ptr - bytes);
@@ -40,32 +43,32 @@ public:
     }
 
     [[nodiscard]]
-    bool canAllocate(size_t bytes)
+    constexpr bool canAllocate(size_t bytes) const
     {
-        return used() + bytes <= size;
+        return bytes > 0 && used() + bytes <= size;
     }
 
     [[nodiscard]]
-    bool contains(const void* p) const
+    constexpr bool contains(const void* p) const
     {
         return p && p >= buffer && p < buffer + N;
     }
 
     [[nodiscard]]
-    size_t used() const
+    constexpr size_t used() const
     {
         return static_cast<size_t>(ptr - buffer);
     }
 
     [[nodiscard]]
-    bool isEmpty() const
+    constexpr bool isEmpty() const
     {
         return ptr == buffer;
     }
 
 private:
 
-    static size_t alignUp(std::size_t n) noexcept { return (n + (align - 1)) & ~(align - 1); }
+    constexpr static size_t alignUp(std::size_t n) noexcept { return (n + (align - 1)) & ~(align - 1); }
 
 private:
 
@@ -73,5 +76,6 @@ private:
     std::byte* ptr;
 };
 
+} // namespace TGEngine::Core
 
 #endif // TGENGINE_STACK_STORAGE_H

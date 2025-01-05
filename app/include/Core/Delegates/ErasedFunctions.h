@@ -1,29 +1,27 @@
 #ifndef TGENGINE_DELEGATE_INTERNALS_H
 #define TGENGINE_DELEGATE_INTERNALS_H
 
+#include "DelegateTypes.h"
+
 #include <memory>
 
 namespace TGEngine::Core::_DelegateInternals
 {
 
-struct ErasedFunctions
+template<DelegateType DelegateType, typename... Args>
+constexpr DelegateType::RetVal execute(typename DelegateType::Erased* delegate, Args&&... args)
 {
-    template<typename DelegateType, typename... Args>
-    constexpr static DelegateType::RetVal execute(DelegateType::Erased* delegate, Args&&... args)
-    {
-        return static_cast<DelegateType*>(delegate)->execute(std::forward<Args>(args)...);
-    }
+    return static_cast<DelegateType*>(delegate)->execute(std::forward<Args>(args)...);
+}
 
-    template<typename DelegateType>
-    constexpr static DelegateType::Erased* construct(DelegateType::Erased* at, const DelegateType::Erased* from)
-    {
-        auto p = static_cast<DelegateType*>(at);
-        auto arg = static_cast<const DelegateType*>(from);
+template<DelegateType DelegateType>
+constexpr DelegateType::Erased* construct(typename DelegateType::Erased* at, const typename DelegateType::Erased* from)
+{
+    auto p = static_cast<DelegateType*>(at);
+    auto arg = static_cast<const DelegateType*>(from);
 
-        return std::construct_at(p, *arg);
-    }
-};
-
+    return std::construct_at(p, *arg);
+}
 
 } // namespace TGEngine::Core::_DelegateInternals
 
